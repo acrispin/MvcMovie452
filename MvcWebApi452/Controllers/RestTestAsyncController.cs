@@ -10,6 +10,9 @@ using System.Web.Http;
 
 namespace MvcWebApi452.Controllers
 {
+    /// <summary>
+    /// https://www.exceptionnotfound.net/using-async-and-await-in-asp-net-what-do-these-keywords-mean/
+    /// </summary>
     [RoutePrefix("api/test")]
     public class RestTestAsyncController : ApiController
     {
@@ -76,6 +79,28 @@ namespace MvcWebApi452.Controllers
             var name = await nameTask;
             watch.Stop();
             dict["msg"] = watch.ElapsedMilliseconds;
+            return Ok(dict);
+        }
+
+        /// <summary>
+        /// /api/test/async3
+        /// </summary>
+        /// <returns></returns>
+        [Route("async3")]
+        [HttpGet]
+        public async Task<IHttpActionResult> testAsync3()
+        {
+            var dict = new Dictionary<string, object>() { { "rs", true }, { "msg", "" }, { "time", "" } };
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            ContentManagement service = new ContentManagement();
+            var rsTask = service.normalMethodAsync();
+            var rsTask2 = service.normalMethodAsync2();
+            var rs = await rsTask;
+            var rs2 = await rsTask2;
+            watch.Stop();
+            dict["time"] = watch.ElapsedMilliseconds;
+            dict["msg"] = rs + " - " + rs2;
             return Ok(dict);
         }
     }

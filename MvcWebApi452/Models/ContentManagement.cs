@@ -65,5 +65,25 @@ namespace MvcWebApi452.Models
             await Task.Run(() => { Thread.Sleep(3000); });
             return "Matthew";
         }
+
+        public async Task<string> normalMethodAsync()
+        {
+            string parametro = "Test 001";
+            var rs = await Task.Run(() => { return normalMethod(parametro); });
+            return rs;
+        }
+
+        public async Task<string> normalMethodAsync2()
+        {
+            string parametro = "Test 002";
+            var rs = await Task.Run(() => normalMethod(parametro));
+            return rs;
+        }
+
+        public string normalMethod(string param) 
+        {
+            Thread.Sleep(1000);
+            return "Return: " + param;
+        }
     }
 }
