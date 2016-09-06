@@ -29,6 +29,7 @@ namespace MvcWebApi452.Models
             Thread.Sleep(3000);
             return "Matthew";
         }
+
         public async Task<string> GetContentAsync()
         {
             await Task.Delay(2000);
@@ -44,6 +45,24 @@ namespace MvcWebApi452.Models
         public async Task<string> GetNameAsync()
         {
             await Task.Delay(3000);
+            return "Matthew";
+        }
+
+        public async Task<string> GetContentAsync2()
+        {
+            await Task.Run(() => { Thread.Sleep(2000); });
+            return "content";
+        }
+
+        public async Task<int> GetCountAsync2()
+        {
+            await Task.Run(() => { Thread.Sleep(5000); });
+            return 4;
+        }
+
+        public async Task<string> GetNameAsync2()
+        {
+            await Task.Run(() => { Thread.Sleep(3000); });
             return "Matthew";
         }
     }

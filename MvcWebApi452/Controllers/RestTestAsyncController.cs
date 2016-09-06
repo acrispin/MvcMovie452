@@ -55,5 +55,28 @@ namespace MvcWebApi452.Controllers
             dict["msg"] = watch.ElapsedMilliseconds;
             return Ok(dict);
         }
+
+        /// <summary>
+        /// /api/test/async2
+        /// </summary>
+        /// <returns></returns>
+        [Route("async2")]
+        [HttpGet]
+        public async Task<IHttpActionResult> testAsync2()
+        {
+            var dict = new Dictionary<string, object>() { { "rs", true }, { "msg", "" } };
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            ContentManagement service = new ContentManagement();
+            var contentTask = service.GetContentAsync2();
+            var countTask = service.GetCountAsync2();
+            var nameTask = service.GetNameAsync2();
+            var content = await contentTask;
+            var count = await countTask;
+            var name = await nameTask;
+            watch.Stop();
+            dict["msg"] = watch.ElapsedMilliseconds;
+            return Ok(dict);
+        }
     }
 }
