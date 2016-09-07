@@ -103,5 +103,61 @@ namespace MvcWebApi452.Controllers
             dict["msg"] = rs + " - " + rs2;
             return Ok(dict);
         }
+
+        /// <summary>
+        /// /api/test/async4
+        /// </summary>
+        /// <returns></returns>
+        [Route("async4")]
+        [HttpGet]
+        public async Task<IHttpActionResult> testAsync4()
+        {
+            var dict = new Dictionary<string, object>() { { "rs", true }, { "msg", "" }, { "time", "" } };
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            ContentManagement service = new ContentManagement();
+            var rsTask = service.normalMethodAsync();
+            var rsTask2 = service.normalMethodAsyncError();
+            var rs = await rsTask;
+            var rs2 = await rsTask2;
+            watch.Stop();
+            dict["time"] = watch.ElapsedMilliseconds;
+            dict["msg"] = rs + " - " + rs2;
+            return Ok(dict);
+        }
+
+        /// <summary>
+        /// /api/test/async5
+        /// controlando el error de testAsync4
+        /// </summary>
+        /// <returns></returns>
+        [Route("async5")]
+        [HttpGet]
+        public async Task<IHttpActionResult> testAsync5()
+        {
+            var dict = new Dictionary<string, object>() { { "rs", true }, { "msg", "" }, { "time", "" } };
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            try
+            {
+                ContentManagement service = new ContentManagement();
+                var rsTask = service.normalMethodAsync();
+                var rsTask2 = service.normalMethodAsyncError();
+                var rs = await rsTask;
+                var rs2 = await rsTask2;
+                watch.Stop();
+                dict["time"] = watch.ElapsedMilliseconds;
+                dict["msg"] = rs + " - " + rs2;
+            }
+            catch (Exception ex)
+            {
+                watch.Stop();
+                dict["rs"] = false;
+                dict["msg"] = ex.Message;
+                dict["time"] = watch.ElapsedMilliseconds;
+            }
+            
+            return Ok(dict);
+        }
     }
 }

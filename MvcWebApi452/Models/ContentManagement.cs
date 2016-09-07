@@ -80,9 +80,26 @@ namespace MvcWebApi452.Models
             return rs;
         }
 
+        public async Task<string> normalMethodAsyncError()
+        {
+            string parametro = "Test 002";
+            var rs = await Task.Run(() => normalMethodError(parametro));
+            return rs;
+        }
+
         public string normalMethod(string param) 
         {
             Thread.Sleep(1000);
+            return "Return: " + param;
+        }
+
+        public string normalMethodError(string param, bool error = true)
+        {
+            Thread.Sleep(1000);
+            if (error)
+            {
+                throw new Exception("Error desde normalMethodError");
+            }
             return "Return: " + param;
         }
     }
